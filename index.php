@@ -224,78 +224,79 @@ $result = mysqli_query($con, $query);
       </div>
       <div class="row">
       <?php
-      $count = 0;
+$count = 0;
 if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
-      $count++;
-        // Use heredoc syntax for cleaner HTML embedding within PHP
+        $count++;
+        // Close heredoc temporarily to include dynamic PHP variables
         echo <<<HTML
-       <div class="col-md-6 col-lg-4 mb-4">
-    <div class="card h-100 shadow-lg border-0 rounded-lg overflow-hidden hover-effect">
-        <!-- Product image -->
-        <img src="assets/images/{$row['itemName']}.jpg" class="card-img-top img-fluid" alt="Product Image" style="height: 200px; object-fit: cover;">
+        <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-lg border-0 rounded-lg overflow-hidden hover-effect">
+            <!-- Product image -->
+HTML;
+        // Echo the dynamic image URL
+        echo '<img src="' . htmlspecialchars($row['picture']) . '" class="card-img-top img-fluid" alt="Product Image" style="height: 200px; object-fit: cover;">';
 
-        <div class="card-body d-flex flex-column">
-            <h5 class="card-title text-dark font-weight-bold mb-2">{$row['itemName']}</h5>
-            <p class="card-text text-muted mb-4">{$row['Description']}</p>
-            <div class="mt-auto">
-                <p class="card-text mb-1">
-                    <strong class="text-success">Price: \${$row['Price']}</strong>
-                </p>
-                <p class="card-text mb-2">
-                    <small class="text-warning">Status: {$row['Status']}</small>
-                </p>
+        echo <<<HTML
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-dark font-weight-bold mb-2">{$row['itemName']}</h5>
+                <p class="card-text text-muted mb-4">{$row['Description']}</p>
+                <div class="mt-auto">
+                    <p class="card-text mb-1">
+                        <strong class="text-success">Price: \${$row['Price']}</strong>
+                    </p>
+                    <p class="card-text mb-2">
+                        <small class="text-warning">Status: {$row['Status']}</small>
+                    </p>
+                </div>
+            </div>
+            <div class="card-footer bg-light text-center border-0">
+                <a href="buy.php?id={$row['Item_ID']}" class="btn btn-success btn-lg rounded-pill px-4">Buy Now</a>
             </div>
         </div>
-        <div class="card-footer bg-light text-center border-0">
-            <a href="buy.php?id={$row['Item_ID']}" class="btn btn-success btn-lg rounded-pill px-4">Buy Now</a>
-        </div>
     </div>
-</div>
 
-<style>
-    .card {
-        border-radius: 1rem;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card-img-top {
-        border-bottom: 1px solid #dee2e6;
-        transition: transform 0.3s ease;
-    }
-    .card-body {
-        padding: 1.25rem;
-    }
-    .card-title {
-        font-size: 1.25rem;
-        margin-bottom: 0.5rem;
-    }
-    .card-text {
-        font-size: 1rem;
-        margin-bottom: 1rem;
-    }
-    .btn-success {
-        background-color: #28a745;
-        border-color: #28a745;
-        border-radius: 50px;
-        font-size: 1rem;
-        padding: 0.75rem 1.5rem;
-        transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-    .btn-success:hover {
-        background-color: #218838;
-        border-color: #1e7e34;
-    }
-    .hover-effect:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    .hover-effect:hover .card-img-top {
-        transform: scale(1.1);
-    }
-</style>
-
-
+    <style>
+        .card {
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-img-top {
+            border-bottom: 1px solid #dee2e6;
+            transition: transform 0.3s ease;
+        }
+        .card-body {
+            padding: 1.25rem;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .card-text {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            border-radius: 50px;
+            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        .hover-effect:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .hover-effect:hover .card-img-top {
+            transform: scale(1.1);
+        }
+    </style>
 HTML;
     }
 }
